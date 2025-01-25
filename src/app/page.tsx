@@ -1,5 +1,5 @@
 'use client';
-import { ServerCard } from '@/components/ServerCard';
+import { ServerCard } from '@/app/components/ServerCard';
 import { MinecraftServer } from '@/types';
 import { useEffect, useState } from 'react';
 
@@ -36,21 +36,48 @@ export default function Home() {
 		fetchServerData();
 	}, []);
 
+	useEffect(() => {
+		const theme = localStorage.getItem('theme');
+		if (theme === 'dark') {
+			document.documentElement.classList.add('dark');
+		}
+	}, []);
+
+	const toggleTheme = () => {
+		if (document.documentElement.classList.contains('dark')) {
+			document.documentElement.classList.remove('dark');
+			localStorage.setItem('theme', 'light');
+		} else {
+			document.documentElement.classList.add('dark');
+			localStorage.setItem('theme', 'dark');
+		}
+	};
+
 	return (
-		<div className="grid grid-rows items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+		<div className="flex flex-col  dark:bg-gray-dark items-center justify-items-center min-h-screen gap-16 p-10 font-[family-name:var(--font-geist-sans)]">
 			{/* main can be deleted and replaced with your own cards */}
+
 			<main>
-				<h1 className="text-2xl font-bold text-center">
-					Minecraft Server List
-				</h1>
-				<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+				<header className="flex flex-col md:flex-row justify-between items-center mb-4 gap-5 md:gap-2">
+					<h1 className="text-2xl font-bold text-center text-gray-medium dark:text-white">
+						Minecraft Server List
+					</h1>
+					<button
+						onClick={toggleTheme}
+						className="px-2 py-2 text-sm font-semibold rounded-lg bg-gray-medium dark:border dark:border-white text-white hover:bg-gray-dark dark:bg-gray-medium dark:text-white"
+					>
+						Toggle Theme
+					</button>
+				</header>
+
+				<div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-2">
 					{serverData ? (
 						serverData.map((server) => (
 							<ServerCard key={server.id} server={server} />
 						))
 					) : (
 						<div className="col-span-full text-center">
-							<p className="text-gray-600">Loading data...</p>
+							<p className="text-gray-600  dark:text-white">Loading data...</p>
 						</div>
 					)}
 				</div>

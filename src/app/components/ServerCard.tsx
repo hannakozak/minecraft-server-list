@@ -1,5 +1,5 @@
-import { MinecraftServer } from '@/types';
 import { useState } from 'react';
+import { MinecraftServer } from '@/types';
 import { ServerCardHeader } from './ServerCardHeader';
 import { ServerCardFooter } from './ServerCardFooter';
 import { ServerCardBody } from './ServerCardBody';
